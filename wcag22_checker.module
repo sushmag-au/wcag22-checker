@@ -1,0 +1,128 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for WCAG 2.2 Accessibility Companion.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function wcag22_checker_help(string $route_name, RouteMatchInterface $route_match): string|array {
+  switch ($route_name) {
+    case 'help.page.wcag22_checker':
+      $output = '<h3>' . t('About WCAG 2.2 Accessibility Companion') . '</h3>';
+      $output .= '<p>' . t('The WCAG 2.2 Accessibility Companion helps site builders, themes, and content editors audit and enforce modern W3C WCAG 2.2 AA success criteria directly in the browser.') . '</p>';
+      $output .= '<ul>';
+      $output .= '<li><strong>2.5.8 Target Size (Minimum 24×24px):</strong> Highlights touch targets with insufficient clickable area.</li>';
+      $output .= '<li><strong>2.4.11 Focus Not Obscured (Minimum):</strong> Monitors keyboard navigation to ensure sticky or fixed elements do not conceal focused controls.</li>';
+      $output .= '<li><strong>3.3.7 Redundant Entry:</strong> Identifies opportunities to auto-fill or reuse data across multi-step forms.</li>';
+      $output .= '</ul>';
+      return $output;
+
+    default:
+      return '';
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function wcag22_checker_page_attachments(array &$attachments): void {
+  $account = \Drupal::currentUser();
+  if (!$account->hasPermission('view wcag22 auditor')) {
+    return;
+  }
+
+  $config = \Drupal::config('wcag22_checker.settings');
+  if (!$config->get('enabled')) {
+    return;
+  }
+
+  // Check admin theme exclusion.
+  if ($config->get('exclude_admin_theme')) {
+    $admin_context = \Drupal::service('router.admin_context');
+    if ($admin_context->isAdminRoute()) {
+      return;
+    }
+  }
+
+  // Check path pattern exclusions.
+  $excluded_paths = $config->get('excluded_paths');
+  if (!empty($excluded_paths)) {
+    $current_path = \Drupal::service('path.current')->getPath();
+    $path_matcher = \Drupal::service('path.matcher');
+    if ($path_matcher->matchPath($current_path, $excluded_paths)) {
+      return;
+    }
+  }
+
+  // Attach the auditor library and settings.
+  $attachments['#attached']['library'][] = 'wcag22_checker/auditor';
+  $attachments['#attached']['drupalSettings']['wcag22Checker'] = [
+    'enabled' => (bool) $config->get('enabled'),
+    'minTargetSize' => (int) ($config->get('min_target_size') ?? 24),
+    'checkTargetSize' => (bool) $config->get('check_target_size'),
+    'checkFocusObscured' => (bool) $config->get('check_focus_obscured'),
+    'checkRedundantEntry' => (bool) $config->get('check_redundant_entry'),
+    'showFloatingHud' => (bool) $config->get('show_floating_hud'),
+    'hudPosition' => (string) ($config->get('hud_position') ?? 'bottom-right'),
+    'soundAlerts' => (bool) $config->get('sound_alerts'),
+  ];
+}
+
+/**
+ * Implements hook_toolbar().
+ */
+function wcag22_checker_toolbar(): array {
+  $items = [];
+  $account = \Drupal::currentUser();
+
+  if (!$account->hasPermission('view wcag22 auditor')) {
+    return $items;
+  }
+
+  $items['wcag22_checker'] = [
+    '#type' => 'toolbar_item',
+    'tab' => [
+      '#type' => 'link',
+      '#title' => t('♿ WCAG 2.2'),
+      '#url' => Url::fromRoute('wcag22_checker.report'),
+      '#attributes' => [
+        'title' => t('WCAG 2.2 Accessibility Companion'),
+        'class' => ['toolbar-icon', 'toolbar-icon-wcag22'],
+      ],
+    ],
+    'tray' => [
+      '#heading' => t('WCAG 2.2 Auditor Actions'),
+      'content' => [
+        '#theme' => 'item_list',
+        '#items' => [
+          [
+            '#type' => 'link',
+            '#title' => t('Compliance Dashboard'),
+            '#url' => Url::fromRoute('wcag22_checker.report'),
+          ],
+          [
+            '#type' => 'link',
+            '#title' => t('Configure Rules & Thresholds'),
+            '#url' => Url::fromRoute('wcag22_checker.settings'),
+          ],
+        ],
+      ],
+    ],
+    '#weight' => 150,
+    '#attached' => [
+      'library' => [
+        'wcag22_checker/toolbar',
+      ],
+    ],
+  ];
+
+  return $items;
+}

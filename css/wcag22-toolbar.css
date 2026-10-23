@@ -1,0 +1,9 @@
+/**
+ * @file
+ * Styling for WCAG 2.2 toolbar item.
+ */
+
+.toolbar .toolbar-bar .toolbar-icon-wcag22:before {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z'/%3E%3C/svg%3E");
+  background-size: 16px 16px;
+}

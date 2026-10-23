@@ -1,0 +1,9 @@
+name: 'WCAG 2.2 Accessibility Companion'
+type: module
+description: 'Automated on-page auditor and assistive tools for WCAG 2.2 AA compliance: Target Size (2.5.8), Focus Not Obscured (2.4.11), and Redundant Entry (3.3.7).'
+package: 'Accessibility'
+core_version_requirement: ^10 || ^11
+configure: wcag22_checker.settings
+
+dependencies:
+  - drupal:toolbar

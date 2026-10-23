@@ -1,0 +1,10 @@
+enabled: true
+min_target_size: 24
+check_target_size: true
+check_focus_obscured: true
+check_redundant_entry: true
+exclude_admin_theme: false
+show_floating_hud: true
+hud_position: 'bottom-right'
+sound_alerts: false
+excluded_paths: "/admin/content*\n/media/*"

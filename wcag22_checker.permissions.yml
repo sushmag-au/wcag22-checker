@@ -1,0 +1,8 @@
+administer wcag22 checker:
+  title: 'Administer WCAG 2.2 Checker settings'
+  description: 'Configure rules, thresholds, and role access for WCAG 2.2 auditing.'
+  restrict access: true
+
+view wcag22 auditor:
+  title: 'Use WCAG 2.2 interactive auditor'
+  description: 'View the live WCAG 2.2 overlay HUD, run real-time checks, and inspect touch target and focus obscurity issues.'

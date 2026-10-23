@@ -1,0 +1,27 @@
+{
+  "name": "drupal/wcag22_checker",
+  "type": "drupal-module",
+  "description": "On-page auditing and assistive tools for WCAG 2.2 AA success criteria (Target Size 2.5.8, Focus Obscuration 2.4.11, Redundant Entry 3.3.7).",
+  "keywords": ["Drupal", "Accessibility", "A11y", "WCAG 2.2", "Target Size", "Focus Obscured"],
+  "homepage": "https://www.drupal.org/project/wcag22_checker",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Sushma Gogula",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/wcag22_checker",
+    "source": "https://git.drupalcode.org/project/wcag22_checker"
+  },
+  "require": {
+    "php": ">=8.1",
+    "drupal/core": "^10.0 || ^11.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Drupal\\wcag22_checker\\": "src/"
+    }
+  }
+}

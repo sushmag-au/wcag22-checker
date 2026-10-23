@@ -1,0 +1,15 @@
+wcag22_checker.settings:
+  path: '/admin/config/content/wcag22-checker'
+  defaults:
+    _form: '\Drupal\wcag22_checker\Form\Wcag22SettingsForm'
+    _title: 'WCAG 2.2 Accessibility Companion Settings'
+  requirements:
+    _permission: 'administer wcag22 checker'
+
+wcag22_checker.report:
+  path: '/admin/reports/wcag22-audit'
+  defaults:
+    _controller: '\Drupal\wcag22_checker\Controller\Wcag22ReportController::overview'
+    _title: 'WCAG 2.2 Audit & Compliance Dashboard'
+  requirements:
+    _permission: 'administer wcag22 checker'

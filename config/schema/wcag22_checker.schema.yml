@@ -1,0 +1,34 @@
+wcag22_checker.settings:
+  type: config_object
+  label: 'WCAG 2.2 Checker settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable WCAG 2.2 auditor'
+    min_target_size:
+      type: integer
+      label: 'Minimum target size in CSS pixels (WCAG 2.5.8 default is 24)'
+    check_target_size:
+      type: boolean
+      label: 'Audit Target Size (2.5.8)'
+    check_focus_obscured:
+      type: boolean
+      label: 'Audit Focus Not Obscured (2.4.11)'
+    check_redundant_entry:
+      type: boolean
+      label: 'Audit Redundant Entry (3.3.7)'
+    exclude_admin_theme:
+      type: boolean
+      label: 'Exclude checks when viewing the admin theme'
+    show_floating_hud:
+      type: boolean
+      label: 'Display floating auditor widget'
+    hud_position:
+      type: string
+      label: 'Floating widget position'
+    sound_alerts:
+      type: boolean
+      label: 'Play audio alert when focus is obscured'
+    excluded_paths:
+      type: text
+      label: 'Paths to exclude from auditing'

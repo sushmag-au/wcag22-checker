@@ -1,0 +1,13 @@
+wcag22_checker.settings:
+  title: 'WCAG 2.2 Checker Settings'
+  description: 'Configure automated WCAG 2.2 target size and focus obscurity checks.'
+  parent: system.admin_config_content
+  route_name: wcag22_checker.settings
+  weight: 25
+
+wcag22_checker.report:
+  title: 'WCAG 2.2 Compliance Overview'
+  description: 'View guidelines, success criteria, and configuration status for WCAG 2.2.'
+  parent: system.admin_reports
+  route_name: wcag22_checker.report
+  weight: 30

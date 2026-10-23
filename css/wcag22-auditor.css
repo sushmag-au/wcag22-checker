@@ -1,0 +1,306 @@
+/**
+ * @file
+ * Styling for the WCAG 2.2 In-Page Auditor & Floating HUD.
+ */
+
+:root {
+  --wcag22-danger: #ef4444;
+  --wcag22-danger-bg: rgba(239, 68, 68, 0.12);
+  --wcag22-warning: #f59e0b;
+  --wcag22-warning-bg: rgba(245, 158, 11, 0.12);
+  --wcag22-success: #10b981;
+  --wcag22-panel-bg: #0f172a;
+  --wcag22-panel-text: #f8fafc;
+  --wcag22-accent: #3b82f6;
+}
+
+/* =============================================================================
+   1. Visual Highlight Overlays (Target Size 2.5.8 Violations)
+   ============================================================================= */
+
+body:not(.wcag22-hide-overlays) [data-wcag22-target-violation="true"] {
+  outline: 2px dashed var(--wcag22-danger) !important;
+  outline-offset: 2px !important;
+  background-color: var(--wcag22-danger-bg) !important;
+  position: relative;
+}
+
+body:not(.wcag22-hide-overlays) [data-wcag22-target-violation="true"]::after {
+  content: "⚠️ " attr(data-wcag22-size);
+  position: absolute;
+  top: -22px;
+  left: 0;
+  background: #991b1b;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 99999;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* Focus Not Obscured (2.4.11) Alert */
+.wcag22-focus-obscured {
+  outline: 4px solid var(--wcag22-danger) !important;
+  outline-offset: 4px !important;
+  animation: wcag22Pulse 1s infinite alternate;
+}
+
+@keyframes wcag22Pulse {
+  from {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  to {
+    box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
+  }
+}
+
+/* Redundant Entry Flag */
+body:not(.wcag22-hide-overlays) [data-wcag22-form-flag="true"] {
+  border-bottom: 2px wavy var(--wcag22-warning) !important;
+}
+
+/* =============================================================================
+   2. Floating HUD Component
+   ============================================================================= */
+
+.wcag22-hud {
+  position: fixed;
+  z-index: 100000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--wcag22-panel-text);
+}
+
+.wcag22-hud--bottom-right {
+  bottom: 24px;
+  right: 24px;
+}
+
+.wcag22-hud--bottom-left {
+  bottom: 24px;
+  left: 24px;
+}
+
+.wcag22-hud--top-right {
+  top: 72px;
+  right: 24px;
+}
+
+/* Collapsed Badge */
+.wcag22-hud-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1e293b;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  border: 1px solid #334155;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.wcag22-hud-badge:hover,
+.wcag22-hud-badge:focus-visible {
+  background: #0f172a;
+  transform: translateY(-2px);
+  outline: 2px solid var(--wcag22-accent);
+}
+
+.wcag22-badge-icon {
+  font-size: 16px;
+}
+
+.wcag22-badge-title {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.wcag22-badge-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 12px;
+  background: #475569;
+  color: #f8fafc;
+}
+
+.wcag22-badge-count.has-violations {
+  background: var(--wcag22-danger);
+  color: #ffffff;
+}
+
+.wcag22-badge-count.is-clean {
+  background: var(--wcag22-success);
+  color: #ffffff;
+}
+
+/* Expanded Panel */
+.wcag22-hud-panel {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  right: 0;
+  width: 320px;
+  background: var(--wcag22-panel-bg);
+  border: 1px solid #334155;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  animation: wcag22FadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes wcag22FadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wcag22-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 14px 16px;
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.wcag22-panel-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.wcag22-panel-subtitle {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.wcag22-close-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.wcag22-close-btn:hover {
+  color: #ffffff;
+}
+
+.wcag22-panel-body {
+  padding: 16px;
+}
+
+.wcag22-metric-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.wcag22-metric {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #1e293b;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border-left: 3px solid var(--wcag22-accent);
+}
+
+.wcag22-metric-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: #38bdf8;
+  min-width: 24px;
+  text-align: center;
+}
+
+.wcag22-metric-label {
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.wcag22-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wcag22-btn {
+  width: 100%;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: var(--wcag22-accent);
+  color: #ffffff;
+  transition: background 0.2s;
+  text-align: center;
+}
+
+.wcag22-btn:hover {
+  background: #2563eb;
+}
+
+.wcag22-btn--secondary {
+  background: #334155;
+  color: #f1f5f9;
+}
+
+.wcag22-btn--secondary:hover {
+  background: #475569;
+}
+
+.wcag22-btn--outline {
+  background: transparent;
+  border: 1px solid #475569;
+  color: #94a3b8;
+}
+
+.wcag22-btn--outline:hover {
+  border-color: #cbd5e1;
+  color: #f8fafc;
+}
+
+/* Toast Message */
+.wcag22-toast {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  background: #1e293b;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  border-left: 4px solid var(--wcag22-danger);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
+  pointer-events: none;
+  z-index: 100001;
+}
+
+.wcag22-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

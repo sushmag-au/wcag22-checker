@@ -1,0 +1,23 @@
+auditor:
+  version: 1.0.0
+  css:
+    theme:
+      css/wcag22-auditor.css: {}
+  js:
+    js/wcag22-auditor.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+
+toolbar:
+  version: 1.0.0
+  css:
+    theme:
+      css/wcag22-toolbar.css: {}
+
+admin:
+  version: 1.0.0
+  css:
+    theme:
+      css/wcag22-admin.css: {}
